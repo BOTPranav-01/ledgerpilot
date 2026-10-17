@@ -18,6 +18,10 @@ python server.py
 
 Open <http://localhost:3000>. Click **Try live demo** or upload a CSV with `date,description,amount,category`.
 
+## Live demo
+
+The deployed app is available at <https://ledgerpilot.onrender.com>.
+
 To use a local open-weight model:
 
 ```powershell

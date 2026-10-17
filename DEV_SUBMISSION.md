@@ -20,7 +20,9 @@ LedgerPilot accepts a bank, Stripe, PayPal, or accounting CSV and turns it into 
 
 ## Demo
 
-**Live app:** [add deployed Render URL]
+**Live app:** [LedgerPilot on Render](https://ledgerpilot.onrender.com)
+
+The health endpoint is also public at [`/api/health`](https://ledgerpilot.onrender.com/api/health).
 
 The fastest path is to open the app and click **Try live demo**. To use your own data, upload a CSV with `date,description,amount,category` columns.
 
