@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101114">
+  <title>LedgerPilot — make your next month less uncertain</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/"><span class="mark">↗</span><span>Ledger<span class="accent">Pilot</span></span></a>
+    <nav><a href="#how">How it works</a><a href="#privacy">Privacy</a><button class="ghost" id="loadDemo">Try live demo <span>↗</span></button></nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="eyebrow"><span class="pulse"></span> PRIVATE CASHFLOW INTELLIGENCE FOR INDEPENDENTS</div>
+      <h1>Make your next<br><em>month less uncertain.</em></h1>
+      <p class="lede">LedgerPilot turns messy transaction exports into a calm, actionable money plan — without sending your books to an opaque AI vendor.</p>
+      <div class="hero-actions"><button class="primary" id="startBtn">Analyze my cashflow <span>→</span></button><a href="#how" class="text-link">See how it works ↓</a></div>
+      <div class="proof"><div class="avatar-stack"><i>R</i><i>M</i><i>J</i><i>+</i></div><span>Built for the 1-person business<br><b>not the finance department</b></span></div>
+    </section>
+    <section class="dashboard" id="workspace">
+      <div class="dash-head"><div><div class="eyebrow">YOUR MONEY DESK <span class="live-dot"></span> DEMO DATA</div><h2>Good morning, Maya.</h2></div><div class="privacy-pill">⌁ Local-first mode</div></div>
+      <div class="dash-grid">
+        <article class="card net-card"><div class="card-label">NET THIS MONTH <span class="info">i</span></div><div class="metric" id="netMetric">$1,650</div><div class="trend positive" id="netTrend">↑ 18.4% <small>vs last month</small></div><div class="sparkline"><svg viewBox="0 0 300 70" preserveAspectRatio="none"><path d="M0 58 C20 55 28 61 45 48 S70 53 83 41 S105 48 122 35 S145 38 160 28 S185 36 200 19 S220 27 240 15 S260 21 300 4" fill="none" stroke="#caef8c" stroke-width="3"/><path d="M0 58 C20 55 28 61 45 48 S70 53 83 41 S105 48 122 35 S145 38 160 28 S185 36 200 19 S220 27 240 15 S260 21 300 4 V70 H0Z" fill="url(#fade)"/><defs><linearGradient id="fade" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#caef8c" stop-opacity=".18"/><stop offset="1" stop-color="#caef8c" stop-opacity="0"/></linearGradient></defs></svg></div><div class="months"><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span></div></article>
+        <article class="card"><div class="card-label">RUNWAY <span class="info">i</span></div><div class="metric" id="runwayMetric">8.4 <small>mo</small></div><div class="muted">at current burn rate</div><div class="runway"><span style="width:70%"></span></div><div class="runway-meta"><span>0 mo</span><strong>12+ months is healthy</strong><span>12 mo</span></div></article>
+        <article class="card forecast-card"><div class="card-label">6-MONTH OUTLOOK <span class="badge">AI FORECAST</span></div><div class="forecast-area" id="forecastChart"><div class="forecast-line"></div><div class="forecast-fill"></div><span class="chart-label l1">Nov</span><span class="chart-label l2">Dec</span><span class="chart-label l3">Jan</span><span class="chart-label l4">Feb</span><span class="chart-label l5">Mar</span><span class="chart-label l6">Apr</span></div><div class="legend"><span><i class="dot green"></i> Expected</span><span><i class="dot pale"></i> Cautious case</span></div></article>
+        <article class="card insight-card"><div class="card-label">PILOT'S BRIEFING <span class="spark">✦</span></div><h3 id="adviceHeadline">Your base is healthy — turn consistency into leverage.</h3><div id="actions"><div class="action"><b>01 &nbsp; Create a tax reserve</b><span>Move 20% of every client payment into a separate pot.</span><small>Reduces surprise cash squeezes</small></div><div class="action"><b>02 &nbsp; Audit software</b><span>You spent $620 here. Mark one cost to pause or renegotiate.</span><small>Finds a fast margin win</small></div><div class="action"><b>03 &nbsp; Invoice before the work lands</b><span>Use a 50/50 milestone on new projects.</span><small>Shortens time-to-cash</small></div></div><div class="watchout" id="watchout"><span>◎</span> Your next best move: send one outstanding invoice today.</div></article>
+      </div>
+      <div class="bottom-strip"><div><span class="secure-icon">⌁</span><b>Private by default.</b> Your file is processed in this session and never stored.</div><button class="outline" id="uploadBtn">Upload a CSV <span>↑</span></button><input type="file" id="fileInput" accept=".csv" hidden></div>
+    </section>
+    <section class="how" id="how"><div class="section-kicker">FROM EXPORT TO ADVANTAGE</div><h2>Less spreadsheet archaeology.<br><em>More useful decisions.</em></h2><div class="steps"><div><span>01</span><h3>Drop in a CSV</h3><p>Export from your bank, Stripe, PayPal, or accounting tool. No connection or credentials required.</p></div><div><span>02</span><h3>Let the open model spot patterns</h3><p>Classify spending, find margin leaks, and forecast your runway with a model you can run locally.</p></div><div><span>03</span><h3>Leave with three moves</h3><p>Not a dashboard to babysit. A short, explainable plan you can act on before lunch.</p></div></div></section>
+    <section class="privacy" id="privacy"><div><div class="section-kicker">WHY OPEN INNOVATION</div><h2>Your numbers are<br><em>your business.</em></h2></div><div class="privacy-copy"><p>Closed APIs make a freelancer choose between useful intelligence and keeping sensitive client data private. LedgerPilot is built around an open-weight model interface, so the same workflow can run on a laptop with Ollama, on your own Render service, or with a provider you trust.</p><div class="tech-row"><span>OPEN-WEIGHT AI</span><span>MODEL-SWAPPABLE</span><span>EXPLAINABLE OUTPUT</span></div></div></section>
+  </main>
+  <footer><span>LedgerPilot © 2026</span><span>Built for people who invoice people.</span><span>Open AI, practical money.</span></footer>
+  <script src="/app.js"></script>
+</body>
+</html>
