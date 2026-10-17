@@ -8,64 +8,75 @@ tags: devchallenge, hf26challenge, ai, opensource
 
 ## What I Built
 
-LedgerPilot is a privacy-first cashflow copilot for freelancers and one-person businesses.
+LedgerPilot is a small cashflow copilot for freelancers and one-person businesses.
 
-Most independent workers do not need another finance dashboard. They need to answer three questions quickly:
+I built it around a simple observation: most independent workers do not need another finance dashboard. They need to know whether this month is healthy, how long their cash will last if work slows down, and what to do next.
 
-1. Am I actually making money this month?
-2. How long can I keep operating if work slows down?
-3. What is the one money move worth making today?
+LedgerPilot takes a CSV export from a bank, Stripe, PayPal, or accounting tool and turns it into:
 
-LedgerPilot accepts a bank, Stripe, PayPal, or accounting CSV and turns it into a transaction summary, a six-month baseline/cautious forecast, and three specific actions. It is intentionally narrow: it is a five-minute monthly review for someone who invoices people, not a replacement for an accountant.
+- a clear income, expense, and net-cashflow summary
+- category-level spending signals
+- a six-month expected and cautious-case projection
+- three specific actions, written in plain language
+
+The product is intentionally narrow. It is a five-minute monthly review for someone who invoices clients, not an attempt to replace an accountant or become a full accounting platform. The thing it sells is reduced uncertainty.
 
 ## Demo
 
-**Live app:** [LedgerPilot on Render](https://ledgerpilot.onrender.com)
+**Try it here:** [LedgerPilot on Render](https://ledgerpilot.onrender.com)
 
-The health endpoint is also public at [`/api/health`](https://ledgerpilot.onrender.com/api/health).
+Open the app and click **Try live demo** to see the complete flow with sample data. You can also upload a CSV with these columns:
 
-The fastest path is to open the app and click **Try live demo**. To use your own data, upload a CSV with `date,description,amount,category` columns.
+```text
+date,description,amount,category
+```
+
+The deployed health endpoint is available at [`/api/health`](https://ledgerpilot.onrender.com/api/health).
 
 ## Code
 
-This project is designed to run from a small folder with no database and no frontend build step.
+The complete source is on GitHub:
 
-- `server.py` — API, CSV parsing, forecasting, and model adapter
-- `public/index.html` — product experience
-- `public/styles.css` — responsive visual system
-- `public/app.js` — live dashboard interactions
-- `render.yaml` — one-click Render deployment
+[github.com/BOTPranav-01/ledgerpilot](https://github.com/BOTPranav-01/ledgerpilot)
+
+The project is deliberately small enough to understand in one sitting:
+
+- [`server.py`](https://github.com/BOTPranav-01/ledgerpilot/blob/main/server.py) handles the API, CSV parsing, summaries, forecasts, and AI adapter
+- [`public/index.html`](https://github.com/BOTPranav-01/ledgerpilot/blob/main/public/index.html) contains the product experience
+- [`public/styles.css`](https://github.com/BOTPranav-01/ledgerpilot/blob/main/public/styles.css) contains the responsive visual system
+- [`public/app.js`](https://github.com/BOTPranav-01/ledgerpilot/blob/main/public/app.js) connects the interface to the analysis API
+- [`render.yaml`](https://github.com/BOTPranav-01/ledgerpilot/blob/main/render.yaml) describes the Render deployment
 
 ## How I Built It
 
-The core workflow is deliberately model-swappable:
+The important design decision was to keep the numbers and the language separate.
 
-```text
-CSV -> local summary -> forecast -> open-weight model -> three actions
+First, the server parses the CSV and calculates the facts: income, expenses, category totals, monthly net cashflow, average monthly change, volatility, and runway. The forecast is deterministic and explainable. It is not asking a language model to do arithmetic that ordinary code can do more reliably.
+
+Then the product can pass that structured summary to an open-weight model for interpretation. If `OLLAMA_URL` is configured, LedgerPilot uses Ollama and the `qwen2.5:3b` model by default. The model is asked for a short JSON action plan: a headline, three actions, and one watchout.
+
+There is also a deterministic fallback. That matters because the product should still work on the first visit, without a model download, an API key, or a surprise bill. The interface makes the provider visible, so the user can tell whether the briefing came from a local model or the built-in fallback.
+
+The app has no database and does not require a bank connection. A user can run it locally with:
+
+```powershell
+python server.py
 ```
 
-The app works immediately with a deterministic local fallback, so a user never has to hand over data or configure an API key to get value. If `OLLAMA_URL` is set, the server sends the structured summary to a local Ollama model (the default is `qwen2.5:3b`) and asks it for a small, validated JSON action plan. The UI shows which provider produced the briefing.
-
-The forecast is intentionally explainable: it uses historical monthly net cashflow and volatility to show an expected path and a cautious case. That makes the model useful for interpretation and next actions rather than asking it to invent arithmetic.
+It is deployed as a Python web service on Render, with `/api/health` used as the health check.
 
 ## Why Does Open Innovation Matter?
 
-A freelancer's export can contain client names, rates, invoices, and business-sensitive expenses. Sending that file to an opaque third-party API is a meaningful product tradeoff, not a footnote.
+A financial export is not generic text. It can contain client names, invoice amounts, recurring expenses, and a very accurate picture of a small business. Sending all of that to a closed API is a serious product decision for the exact people LedgerPilot is meant to help.
 
-Open AI makes three things possible here:
+Open AI makes the privacy promise practical rather than aspirational. A freelancer can run the workflow locally with Ollama and keep the file on their own machine. They can choose a different open-weight model, host inference somewhere they trust, or use the deterministic fallback when they do not want inference at all.
 
-- **Privacy:** the same workflow can run on a laptop with Ollama and no internet connection.
-- **Control:** the model is an adapter, not the product's identity. A user can swap models or host the inference endpoint themselves.
-- **Economics:** a low-volume solo business can run a monthly review without a per-request bill turning the product into an expensive subscription.
+It also changes the economics. A solo business checking its cashflow once a month should not need to accept an unpredictable per-request cost before the product is useful.
 
-This is also why LedgerPilot keeps arithmetic outside the model. Open models handle the interpretation and prioritisation; deterministic code owns the numbers.
-
-## My First User
-
-Replace this section with a real user story before publishing. I am deliberately not inventing one: the strongest version of this submission should include the user's role, the file format they tried, what action they took, and whether they would pay for a monthly review.
+The open model is not being used as decoration. It is the replaceable reasoning layer that turns calculated facts into a short, useful plan. The arithmetic stays in ordinary code; the model adds interpretation. That division makes the system easier to audit, cheaper to run, and less dependent on one vendor.
 
 ## Prize Categories
 
-- Best Use of Render — Render hosts the web app and exposes `/api/health` for deployment health checks.
+- **Best Use of Render** — Render hosts the public LedgerPilot app, serves the frontend and API, and monitors the `/api/health` endpoint.
 
 Thanks for reading.
