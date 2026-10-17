@@ -36,7 +36,7 @@ The app never requires a bank connection or stores uploaded files. The server ke
 
 This repository includes `render.yaml`. In Render, choose **New > Blueprint**, connect the GitHub repository, and apply the blueprint. Render will run the Python server and use `/api/health` as its health check.
 
-For automatic redeploys after pushes, copy the Render service's deploy hook URL into the GitHub repository secret `RENDER_DEPLOY_HOOK_URL`. The included GitHub Actions workflow will trigger it on every push to `main`.
+Automatic redeploys are enabled in Render, so pushes to `main` trigger a new deployment without an additional GitHub secret or workflow.
 
 For local Ollama inference in a deployment, set `OLLAMA_URL` and optionally `OLLAMA_MODEL` in the service environment. Without those variables, LedgerPilot uses its transparent deterministic fallback.
 
